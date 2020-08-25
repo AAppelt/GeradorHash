@@ -1,18 +1,35 @@
 package br.com.appelt.licenciador.service;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 
+import javax.xml.bind.DatatypeConverter;
+
+import org.springframework.stereotype.Service;
+
+import br.com.appelt.licenciador.model.Licenca;
+
+@Service
 public class LicencaServiceImpl implements LicencaService {
 
     @Override
-    public void gerarLicenca() {
+    public Licenca gerarLicenca(String cnpj) throws NoSuchAlgorithmException {
 
-        String originalString;
+        LocalDate date = LocalDate.now().plusDays(30);
+        String cnpjdata = cnpj + '-' + date;
 
-        final MessageDigest digest = MessageDigest.getInstance(SHA3_256);
-        final byte[] hashbytes = digest.digest(originalString.getBytes(StandardCharsets.UTF_8));
-        String sha3_256hex = bytesToHex(hashbytes);
+        final MessageDigest mDigest = MessageDigest.getInstance("MD5");
+        mDigest.update(cnpjdata.getBytes());
+        byte[] digest = mDigest.digest();
+        String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+
+        Licenca licenca = new Licenca();
+        licenca.setId(1);
+        licenca.setVencimento(date);
+        licenca.setHash(myHash);
+
+        return licenca;
 
     }
 

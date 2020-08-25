@@ -1,5 +1,7 @@
 package br.com.appelt.licenciador.controller.api.v1;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,11 +21,16 @@ public class LicenciadorController {
     }
 
     @GetMapping
-    public Licenca buscarLicenca(@RequestParam(name = "cnpj", required = false) String cnpj,
+    public Licenca buscarLicenca(@RequestParam(name = "cnpj", required = true) String cnpj,
             @RequestParam(name = "razao", required = false) String razao) {
         Licenca licenca = new Licenca();
 
-        this.licencaService.gerarLicenca();
+        try {
+            licenca = this.licencaService.gerarLicenca(cnpj);
+        } catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         return licenca;
 

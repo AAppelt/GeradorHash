@@ -1,6 +1,6 @@
 package br.com.appelt.licenciador.model;
 
-import javax.persistence.Entity;
+import java.time.LocalDate;
 
 import lombok.*;
 
@@ -8,5 +8,8 @@ import lombok.*;
 @Data
 // @Entity(name = "tarproj")
 public class Licenca {
+    private Integer id;
+    private LocalDate vencimento;
+    private String hash;
 
 }
