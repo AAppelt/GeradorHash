@@ -28,7 +28,7 @@ public class LicenciadorController {
         try {
             licenca = this.licencaService.gerarLicenca(cnpj);
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
 
